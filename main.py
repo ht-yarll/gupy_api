@@ -3,23 +3,17 @@ import json
 
 from utils.get_url import get_url
 
-data = get_url('dados')
+label = 'dados'
+data = get_url(f'{label}')
 
-d = []
-for i in data:
-    values = {
-        'id': i['id'],
-        'nome': i['name'],
-        'cidade': i['city'],
-        'modelo': i['workplaceType'],
-        'url da vaga': i['jobUrl'],
-    }
+os.makedirs('vagas/', exist_ok=True)
 
-    d.append(values)
+file_path = os.path.join('vagas', f'{label}.json')
 
-print(d)
 
-# os.makedirs(f'vagas/{label}.json')
+with open(file_path, 'w', encoding='utf-8') as file:
+    json.dump(data, file, indent=4, ensure_ascii=False)
+
 
 
 

@@ -9,13 +9,6 @@ def get_url(label: str) -> dict:
     print(f"Procurando por vagas '{label}'...")
 
     r = requests.get(url)
-    if r.status_code == 200:
-        try:
-            data = json.loads(r.text)
-            return data
-        except json.JSONDecodeError as e:
-            print(f"Error decoding JSON: {e}")
-            return {}
-    else:
-        print(f"Failed to fetch data: {r.status_code}")
-        return {}
+    response = r.json()
+   
+    return response
