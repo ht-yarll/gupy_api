@@ -1,24 +1,30 @@
 import os
 import json
+import re
 
 from utils.get_url import get_data
+from utils.chartmaker import df_vagas_consolidado
 
 import pandas as pd
 import matplotlib.pyplot as plt
 
-label = 'dados'
 
-pd.set_option('display.max_rows', None)
+# Correlação de Vagas por Estado
+fig, ax = plt.subplots(figsize=(16, 6))
+ax.barh(
+    df_vagas_consolidado['state'], 
+    df_vagas_consolidado['N_Vagas'], 
+    color='#238c83'
+)
 
-label_dados = 'dados'
-label_designer = 'designer'
-label_ux = 'ux'
+ax.set_facecolor('#161717')
 
+fig.suptitle('Relação de Quantidade de Vagas por Estado')
 
-# Transformando dados em Dataframe
-df_vagas_dados = pd.DataFrame((get_data(label_dados))['data']) 
-df_vagas_designer = pd.DataFrame((get_data(label_designer))['data']) 
-df_vagas_ux = pd.DataFrame((get_data(label_ux))['data']) 
+plt.grid(color='grey', linestyle='--', linewidth = 0.5)
+plt.figtext(0.65, 0.89, 'Fonte: Gupy Api', fontsize=8)
 
-df_vagas_list = [df_vagas_dados, df_vagas_designer, df_vagas_ux]
-df_vagas = pd.concat(df_vagas_list)
+plt.xlabel('Nº de Vagas')
+plt.ylabel('Estados')
+
+plt.show()
