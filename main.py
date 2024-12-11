@@ -33,7 +33,7 @@ plt.xlabel('Nº de Vagas')
 plt.ylabel('Vagas')
 
 
-plt.savefig(fig_path)
+plt.savefig(fig_path, bbox_inches='tight')
 
 
 #saving file
