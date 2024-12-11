@@ -39,13 +39,22 @@ def check_category(x = str):
         return 'UX/UI'
 
 
-df_vagas_consolidado = (
-    df_vagas
-    .groupby('state')
-    .agg(
-        vaga_para = ('name', lambda x: check_category(x.iloc[0])),
-        mdt_mais_frequentes = ('workplaceType', pd.Series.mode),
-        N_Vagas = ('state', 'count'),
-    )
-    .reset_index()
-)
+df_vagas['tipo_de_vaga'] = df_vagas['name'].apply(check_category)
+
+df_vagas
+
+total_de_vagas = (df_vagas
+                  .groupby('tipo_de_vaga')
+                  .agg(
+                      quantidade = ('tipo_de_vaga', 'value_counts'),
+                      estado = ('state', 'unique')
+                  ).reset_index()
+                  )
+
+df_vagas_por_estado = (df_vagas.groupby('state')
+                    .agg(
+                        vagas_por_estado = ('tipo_de_vaga', 'value_counts'),
+                    )
+                    .reset_index()
+                    .sort_values('state', ascending=False)
+                )
